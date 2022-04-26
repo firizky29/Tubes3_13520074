@@ -6,8 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/gin-gonic/gin"
+	"time"
 
 	"gorm.io/driver/mysql"
 
@@ -64,11 +63,6 @@ func checkError(err error) {
 	}
 }
 
-type DiseaseResponse struct {
-	DiseaseName string `json:"DiseaseName"`
-	DNA         string `json:"DNA"`
-}
-
 func main() {
 	//fs := http.FileServer(http.Dir("../Frontend/rucikawavin/dist"))
 	//http.Handle("/", fs)
@@ -77,32 +71,32 @@ func main() {
 	//log.Panic(
 	//	http.ListenAndServe(":3000", nil),
 	//)
-	Router := gin.Default()
-
-	Router.Static("/", "../Frontend/rucikawavin/dist")
+	//Router := gin.Default()
+	//
+	//Router.Static("/", "../Frontend/rucikawavin/dist")
 	//Router.StaticFS("/more_static", http.Dir("my_file_system"))
 
-	Router.POST("/inputpenyakit", func(context *gin.Context) {
-		var diseaseResponse DiseaseResponse
-		err := context.ShouldBindJSON(&diseaseResponse)
-		if err != nil {
-			fmt.Printf("Error jsonnya")
-		}
+	//Router.POST("/inputpenyakit", func(context *gin.Context) {
+	//	var diseaseResponse DiseaseResponse
+	//	err := context.ShouldBindJSON(&diseaseResponse)
+	//	if err != nil {
+	//		fmt.Printf("Error jsonnya")
+	//	}
+	//
+	//	context.JSON(http.StatusOK, gin.H{
+	//		"DiseaseName": diseaseResponse.DiseaseName,
+	//		"DNA":         diseaseResponse.DNA,
+	//	})
+	//
+	//	fmt.Printf(diseaseResponse.DiseaseName)
+	//	fmt.Printf(diseaseResponse.DNA)
+	//},
+	//)
 
-		context.JSON(http.StatusOK, gin.H{
-			"DiseaseName": diseaseResponse.DiseaseName,
-			"DNA":         diseaseResponse.DNA,
-		})
-
-		fmt.Printf(diseaseResponse.DiseaseName)
-		fmt.Printf(diseaseResponse.DNA)
-	},
-	)
-
-	err := Router.Run()
-	if err != nil {
-		return
-	}
+	//err := Router.Run()
+	//if err != nil {
+	//	return
+	//}
 	/* COBA-COBA */
 	//var err error
 	//var db *gorm.DB
@@ -133,17 +127,18 @@ func main() {
 	/*
 		TODO: yang ini masih bingung, pengennya bisa parse generic date tp gagal wae
 	*/
-	//var input = "02/01/2002"
-	//var inputToTime, err2 = time.Parse("2006-01-02", input)
-	//if err2 != nil {
-	//	fmt.Printf("Input salah format")
-	//	panic(err)
-	//}
-
+	var input = "02-02-2002 00:00:00 WIB"
+	var inputToTime, err2 = time.Parse("2006-01-02 15:02:01 WIB", input)
+	if err2 != nil {
+		fmt.Printf("Input salah format")
+		panic(err2)
+	}
+	fmt.Printf(inputToTime.String())
 	//var logs []disease.DiseasePrediction
 	//logs, _ = repo.FindByDateAndDiseaseName("virus", time.Now())
 	//
 	//for _, log := range logs {
 	//	fmt.Printf(log.UserName)
 	//}
+
 }

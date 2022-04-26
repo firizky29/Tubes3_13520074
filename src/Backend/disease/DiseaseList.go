@@ -15,8 +15,8 @@ type diseaseList struct {
 	db *gorm.DB
 }
 
-func NewDisease(db *gorm.DB) diseaseList {
-	return diseaseList{db}
+func NewDisease(db *gorm.DB) *diseaseList {
+	return &diseaseList{db}
 }
 
 func (d *diseaseList) FindAll() ([]Disease, error) {
