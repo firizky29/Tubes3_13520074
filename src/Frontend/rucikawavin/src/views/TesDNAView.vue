@@ -8,24 +8,28 @@
             <v-row>
                 <v-col cols="12" class="padd">
                     <div class="formContainer" id="formContainer">
-                        <form class="col-md-8 rounded px-5 py-4 shadow bg-white form" action="">
+                        <form class="col-md-8 rounded px-5 py-4 shadow bg-white form" @submit="onSubmit">
                             <h1 class="white--text">Tes DNA</h1>
                             <div class="col-12 form-group">
                                 <label class="col-form-label col-form-label-lg white--text">Nama Pengguna <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control form-control-lg white--text" placeholder="Nama Pengguna">
+                                <input type="text" class="form-control form-control-lg white--text" placeholder="Nama Pengguna" v-model="namapengguna" />
                             </div>
                             <div class="col-12 form-group">
                                 <label class="col-form-label col-form-label-lg white--text">Sequence DNA <span class="text-danger">*</span></label>
-                                <input type="file" class="form-control form-control-lg white--text" color="#A7121D" placeholder="Sequence DNA">
+                                <input accept=".txt" type="file" class="form-control form-control-lg white--text" color="#A7121D" placeholder="Sequence DNA" name="sequencedna" @change="onFilePicked">
                             </div>
                             <div class="col-12 form-group">
                                 <label class="col-form-label col-form-label-lg white--text">Penyakit <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control form-control-lg white--text" color="#A7121D" placeholder="Penyakit">
+                                <input type="text" class="form-control form-control-lg white--text" color="#A7121D" placeholder="Penyakit" name="penyakit" v-model="penyakit">
                             </div>
                             <div class="col-12 form-group text-center">
-                                <v-btn tile color="#A7121D" @click="scroll('service')" dark>Submit<v-icon right>upload</v-icon></v-btn>
+                                <v-btn tile color="#A7121D" type="submit" dark>Submit<v-icon right>upload</v-icon></v-btn>
                             </div>
-                        </form>
+                            <h1 class="white--text" v-if="!resultHidden">Hasil Tes</h1>
+                            <div class="col-12 form-group" v-if="!resultHidden">
+                                <input type="text" class="form-control form-control-lg white--text" color="#A7121D" name="hasiltes" :value="hasiltes" readonly>
+                            </div>
+                        </form>"
                     </div>
                 </v-col>
             </v-row>
@@ -37,31 +41,57 @@
 </template>
 
 <script>
-  import TheNavbar from '../components/TheNavbar'
-  import TheFooter from '../components/TheFooter'
+    import TheNavbar from '../components/TheNavbar'
+    import TheFooter from '../components/TheFooter'
 
-  export default {
-    name: 'HomeView',
+    export default {
+        name: 'TesDNAView',
+        data() {
+            return {
+                namapengguna:"",
+                penyakit: "",
+                hasiltes: "",
+                file: null,
+                resultHidden: true
+            }
+        },
 
-    components: {
-        TheNavbar,
-        TheFooter,
-    },
+        components: {
+            TheNavbar,
+            TheFooter,
+        },
 
-    methods: {
-        scroll(refName) {
-            const element = document.getElementById(refName);
-            element.scrollIntoView({behavior: "smooth"});
+        methods: {
+            onSubmit(e) {
+                e.preventDefault();
+                if (!this.namapengguna || !this.file || !this.penyakit) {
+                    alert('Please fill all fields!')
+                    return
+                } else {
+                    // Menunjukkan hasil
+                    this.resultHidden = false;
+                    
+                    // Masukkan proses
+                    // ...
+                    
+                    // Kemduian ubah nilai dari this.hasiltes
+                    // Misal:
+                    this.hasiltes = "Sedang diproses"
+                }
+            },
+            onFilePicked(event) {
+                const files = event.target.files
+                this.file = files[0]
+            }
         }
     }
-  }
 </script>
 
 <style>
     /* Form CSS */
     .formContainer {
         width: 100%;
-        height: 650px;
+        height: 100%;
         background: linear-gradient(
         to bottom,
             #181818,
