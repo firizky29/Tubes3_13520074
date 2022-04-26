@@ -1,13 +1,13 @@
 package main
 
 import (
-	"backend/disease"
 	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
-	"time"
+
+	"github.com/gin-gonic/gin"
 
 	"gorm.io/driver/mysql"
 
@@ -64,6 +64,11 @@ func checkError(err error) {
 	}
 }
 
+type DiseaseResponse struct {
+	DiseaseName string `json:"DiseaseName"`
+	DNA         string `json:"DNA"`
+}
+
 func main() {
 	//fs := http.FileServer(http.Dir("../Frontend/rucikawavin/dist"))
 	//http.Handle("/", fs)
@@ -72,25 +77,50 @@ func main() {
 	//log.Panic(
 	//	http.ListenAndServe(":3000", nil),
 	//)
+	Router := gin.Default()
 
+	Router.Static("/", "../Frontend/rucikawavin/dist")
+	//Router.StaticFS("/more_static", http.Dir("my_file_system"))
+
+	Router.POST("/inputpenyakit", func(context *gin.Context) {
+		var diseaseResponse DiseaseResponse
+		err := context.ShouldBindJSON(&diseaseResponse)
+		if err != nil {
+			fmt.Printf("Error jsonnya")
+		}
+
+		context.JSON(http.StatusOK, gin.H{
+			"DiseaseName": diseaseResponse.DiseaseName,
+			"DNA":         diseaseResponse.DNA,
+		})
+
+		fmt.Printf(diseaseResponse.DiseaseName)
+		fmt.Printf(diseaseResponse.DNA)
+	},
+	)
+
+	err := Router.Run()
+	if err != nil {
+		return
+	}
 	/* COBA-COBA */
-	var err error
-	var db *gorm.DB
-	db, err = initDB()
-	if err != nil {
-		panic(err)
-	}
-
-	err = db.AutoMigrate(&disease.Disease{})
-	if err != nil {
-		return
-	}
-	err = db.AutoMigrate(&disease.DiseasePrediction{})
-	if err != nil {
-		return
-	}
-
-	var repo = disease.NewPredictionLogs(db)
+	//var err error
+	//var db *gorm.DB
+	//db, err = initDB()
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//err = db.AutoMigrate(&disease.Disease{})
+	//if err != nil {
+	//	return
+	//}
+	//err = db.AutoMigrate(&disease.DiseasePrediction{})
+	//if err != nil {
+	//	return
+	//}
+	//
+	//var repo = disease.NewPredictionLogs(db)
 	//var prediction = disease.DiseasePrediction{
 	//	UserName:          "Firizky Ardiansyah",
 	//	DNA:               "ATCGCGCATGAATATCGATCGATGCATCGCGGCGCGCTAGTACGATCGATGCATGTACATGCATCGTAGCATCGATCGATCGATCGCATCG",
@@ -110,10 +140,10 @@ func main() {
 	//	panic(err)
 	//}
 
-	var logs []disease.DiseasePrediction
-	logs, _ = repo.FindByDateAndDiseaseName("virus", time.Now())
-
-	for _, log := range logs {
-		fmt.Printf(log.UserName)
-	}
+	//var logs []disease.DiseasePrediction
+	//logs, _ = repo.FindByDateAndDiseaseName("virus", time.Now())
+	//
+	//for _, log := range logs {
+	//	fmt.Printf(log.UserName)
+	//}
 }

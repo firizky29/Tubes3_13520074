@@ -35,13 +35,15 @@
 <script>
     import TheNavbar from '../components/TheNavbar'
     import TheFooter from '../components/TheFooter'
+    import axios from "axios";
 
     export default {
         name: 'InputPenyakitView',
         data() {
             return {
                 namapenyakit:"",
-                file: null
+                file: null,
+                content:"",
             }
         },
 
@@ -54,16 +56,37 @@
             onSubmit(event) {
                 event.preventDefault();
                 if (!this.namapenyakit || !this.file) {
-                    alert('Please fill all fields!')
+                    this.$alert('Please fill all fields!')
                     return
                 } else {
-                    // Masukkan proses
-                    // ...
+                  axios.post('/inputpenyakit', {
+                    DiseaseName: this.namapenyakit,
+                    DNA: this.content
+                  }).then(function (response) {
+                    console.log(response);
+                  }).catch(function (error) {
+                    console.log(error);
+                  });
                 }
             },
             onFilePicked(event) {
                 const files = event.target.files
                 this.file = files[0]
+                const reader = new FileReader();
+                if (this.file.name.includes(".txt")) {
+                  reader.onload = (res) => {
+                    this.content = res.target.result;
+                  };
+                  reader.onerror = (err) => console.log(err);
+                  reader.readAsText(this.file);
+                } else {
+                  this.content = "check the console for file output";
+                  reader.onload = (res) => {
+                    console.log(res.target.result);
+                  };
+                  reader.onerror = (err) => console.log(err);
+                  reader.readAsText(this.file);
+                }
             }
         }
     }
