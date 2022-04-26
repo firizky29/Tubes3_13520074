@@ -47,7 +47,7 @@ func (p *predictionLogs) FindByDateComponent(year int, month int, day int) ([]Di
 func (p *predictionLogs) FindByDate(date time.Time) ([]DiseasePrediction, error) {
 	var predictions []DiseasePrediction
 
-	err := p.db.Where("CAST(created_at AS DATE) = ?", date.Format("2017-09-07")).Find(&predictions).Error
+	err := p.db.Where("created_at = CAST(? AS DATE)", date.Format("2006-01-02 15:04:05")).Find(&predictions).Error
 
 	return predictions, err
 }
@@ -63,7 +63,7 @@ func (p *predictionLogs) FindByDiseaseName(name string) ([]DiseasePrediction, er
 func (p *predictionLogs) FindByDateAndDiseaseName(name string, date time.Time) ([]DiseasePrediction, error) {
 	var predictions []DiseasePrediction
 
-	err := p.db.Where("CAST(created_at AS DATE) = ? and disease_prediction = ?", date.Format("2017-09-07"), name).Find(&predictions).Error
+	err := p.db.Where("created_at = CAST(? AS DATE) and disease_prediction = ?", date.Format("2006-01-02 15:04:05"), name).Find(&predictions).Error
 
 	return predictions, err
 }

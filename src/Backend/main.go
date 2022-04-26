@@ -7,8 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/shopspring/decimal"
+	"time"
 
 	"gorm.io/driver/mysql"
 
@@ -92,19 +91,29 @@ func main() {
 	}
 
 	var repo = disease.NewPredictionLogs(db)
-	var prediction = disease.DiseasePrediction{
-		UserName:          "Firizky Ardiansyah",
-		DNA:               "ATCGCGCATGAATATCGATCGATGCATCGCGGCGCGCTAGTACGATCGATGCATGTACATGCATCGTAGCATCGATCGATCGATCGCATCG",
-		DiseasePrediction: "virus",
-		SimilarityLevel:   decimal.NewFromFloat32(9.29),
-		Status:            false,
-	}
-	repo.Create(prediction)
-
-	//var logs []disease.DiseasePrediction
-	//logs, _ = repo.FindByDateAndDiseaseName("virus", time.Now())
-	//
-	//for _, log := range logs {
-	//	fmt.Printf(log.UserName)
+	//var prediction = disease.DiseasePrediction{
+	//	UserName:          "Firizky Ardiansyah",
+	//	DNA:               "ATCGCGCATGAATATCGATCGATGCATCGCGGCGCGCTAGTACGATCGATGCATGTACATGCATCGTAGCATCGATCGATCGATCGCATCG",
+	//	DiseasePrediction: "virus",
+	//	SimilarityLevel:   decimal.NewFromFloat32(9.29),
+	//	Status:            false,
 	//}
+	//repo.Create(prediction)
+
+	/*
+		TODO: yang ini masih bingung, pengennya bisa parse generic date tp gagal wae
+	*/
+	//var input = "02/01/2002"
+	//var inputToTime, err2 = time.Parse("2006-01-02", input)
+	//if err2 != nil {
+	//	fmt.Printf("Input salah format")
+	//	panic(err)
+	//}
+
+	var logs []disease.DiseasePrediction
+	logs, _ = repo.FindByDateAndDiseaseName("virus", time.Now())
+
+	for _, log := range logs {
+		fmt.Printf(log.UserName)
+	}
 }
