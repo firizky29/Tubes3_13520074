@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 	"os"
-	"regexp"
+	// "regexp"
 )
 
 func readVirus(path string) string {
@@ -24,32 +26,24 @@ func check(e error) {
 	}
 }
 
-func main() {
-	// var flag string
-	var virus = readVirus("D:/KULIAH/SEMESTER 4/Strategi Algoritma/Tugas/Tugas Besar/Tubes 3/Tubes3_13520074/src/Backend/virus.txt")
-	var human = readHuman("D:/KULIAH/SEMESTER 4/Strategi Algoritma/Tugas/Tugas Besar/Tubes 3/Tubes3_13520074/src/Backend/human.txt")
-	var regex, err = regexp.Compile("[AGCT]")
+func homePageHandler(w http.ResponseWriter, r *http.Request) {
+	_, err := fmt.Fprintf(w, "Hello World!")
+	checkError(err)
+}
 
+func checkError(err error) {
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Panic(err)
 	}
+}
 
-	if len(regex.FindAllString(virus, -1)) == len(virus) && len(regex.FindAllString(human, -1)) == len(human) {
-		fmt.Println("Virus and human is valid")
-		fmt.Println(len(regex.FindAllString(virus, -1)))
-		fmt.Println(len(virus))
-		fmt.Println(len(regex.FindAllString(human, -1)))
-		fmt.Println(len(human))
-	} else {
-		fmt.Println("Virus and human is invalid")
-		fmt.Println(len(regex.FindAllString(virus, -1)))
-		fmt.Println(len(virus))
-		fmt.Println(len(regex.FindAllString(human, -1)))
-		fmt.Println(len(human))
-	}
+func main() {
+	fs := http.FileServer(http.Dir("../Frontend/rucikawavin/dist"))
+	http.Handle("/", fs)
 
-	// KMPSearch(virus, human, &flag)
-	// fmt.Printf("%s", flag)
-	// search(human, virus, &flag)
-	// fmt.Printf("%s", flag)
+	fmt.Println("Server listening on port 3000")
+	log.Panic(
+		http.ListenAndServe(":3000", nil),
+	)
+
 }
