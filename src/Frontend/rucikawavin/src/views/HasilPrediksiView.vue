@@ -39,26 +39,27 @@
 <script>
     import TheNavbar from '../components/TheNavbar'
     import TheFooter from '../components/TheFooter'
+    import axios from "axios";
 
     export default {
-        name: 'HomeView',
+        name: 'HasilPrediksiView',
 
         data() {
             return {
                 results: [
-                    // dummy
-                    {hasil: 'ayam'},
-                    {hasil: 'babi'},
-                    {hasil: 'anjing'},
-                    {hasil: 'sapi'},
-                    {hasil: 'bola'},
-
-                    // {id: 1, tanggal: '10 April 2022', pasien: 'Fulan', penyakit: 'HIV', hasil: 'True'},
-                    // {id: 2, tanggal: '11 April 2022', pasien: 'Kamal', penyakit: 'Kanker', hasil: 'False'},
-                    // {id: 3, tanggal: '12 April 2022', pasien: 'Entah', penyakit: 'Serangan Jantung', hasil: 'False'},
-                    // {id: 4, tanggal: '13 April 2022', pasien: 'Jamal', penyakit: 'Impotensi', hasil: 'True'},
-                    // {id: 5, tanggal: '14 April 2022', pasien: 'Yubai', penyakit: 'Gangguan Kehamilan', hasil: 'True'},
-                    // {id: 6, tanggal: '15 April 2022', pasien: 'Hika', penyakit: 'Gangguan Janin', hasil: 'False'},
+                    // // dummy
+                    // {hasil: 'ayam'},
+                    // {hasil: 'babi'},
+                    // {hasil: 'anjing'},
+                    // {hasil: 'sapi'},
+                    // {hasil: 'bola'},
+                    //
+                    // // {id: 1, tanggal: '10 April 2022', pasien: 'Fulan', penyakit: 'HIV', hasil: 'True'},
+                    // // {id: 2, tanggal: '11 April 2022', pasien: 'Kamal', penyakit: 'Kanker', hasil: 'False'},
+                    // // {id: 3, tanggal: '12 April 2022', pasien: 'Entah', penyakit: 'Serangan Jantung', hasil: 'False'},
+                    // // {id: 4, tanggal: '13 April 2022', pasien: 'Jamal', penyakit: 'Impotensi', hasil: 'True'},
+                    // // {id: 5, tanggal: '14 April 2022', pasien: 'Yubai', penyakit: 'Gangguan Kehamilan', hasil: 'True'},
+                    // // {id: 6, tanggal: '15 April 2022', pasien: 'Hika', penyakit: 'Gangguan Janin', hasil: 'False'},
                 ],
                 search: ""
             }
@@ -69,22 +70,34 @@
             TheFooter,
         },
 
-        computed: {
-            searchResults() {
-                let res = []
-                if (this.search !== "") {
-                    // contoh program
-                    res = this.results.filter(p =>
-                        p.hasil.toLowerCase().includes(this.search.toLowerCase())
-                        // p.tanggal.toLowerCase().includes(this.search.toLowerCase()) ||
-                        // p.penyakit.toLowerCase().includes(this.search.toLowerCase())
-                    )
-                } else {
-                    res = this.results
-                } 
-                return res
+        // computed: {
+        //     searchResults() {
+        //         let res = []
+        //         if (this.search !== "") {
+        //             // contoh program
+        //             res = this.results.filter(p =>
+        //                 p.hasil.toLowerCase().includes(this.search.toLowerCase())
+        //                 // p.tanggal.toLowerCase().includes(this.search.toLowerCase()) ||
+        //                 // p.penyakit.toLowerCase().includes(this.search.toLowerCase())
+        //             )
+        //         } else {
+        //             res = this.results
+        //         }
+        //         return res
+        //     }
+        // }
+
+        async onSubmit(e) {
+            e.preventDefault();
+            try{
+              const data = await axios.post('/hasilprediksi', {
+                  Query: this.search
+              })
+              this.hasiltes = data.data
+            }catch (e) {
+              await this.$alert(e.response.data.error, "Error", "error")
             }
-        }
+        },
     }
 </script>
 

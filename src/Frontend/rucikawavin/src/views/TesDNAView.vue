@@ -98,7 +98,7 @@
                           DiseasePrediction: this.penyakit,
                           Algorithm: this.algoritma
                       })
-                      this.hasiltes = data.data.result
+                      this.hasiltes = data.data.Result
                   }catch (e) {
                       await this.$alert(e.response.data.error, "Error", "error")
                       this.resultHidden = true;

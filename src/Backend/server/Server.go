@@ -69,6 +69,8 @@ func (s *Server) initRouter() {
 	s.Router = gin.Default()
 	s.Router.POST("/inputpenyakit", s.PostDisease)
 	s.Router.POST("/tesdna", s.PostPrediction)
+	s.Router.POST("/hasilprediksi", s.PostLogs)
+
 	s.Router.Use(static.Serve("/", static.LocalFile("../Frontend/rucikawavin/dist", true)))
 	s.Router.Use(static.Serve("/inputpenyakit", static.LocalFile("../Frontend/rucikawavin/dist", true)))
 	s.Router.Use(static.Serve("/tesdna", static.LocalFile("../Frontend/rucikawavin/dist", true)))

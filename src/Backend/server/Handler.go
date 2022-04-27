@@ -68,7 +68,7 @@ func (s *Server) PostPrediction(c *gin.Context) {
 						})
 					}
 				} else {
-					c.JSON(http.StatusOK, gin.H{
+					c.JSON(http.StatusBadRequest, gin.H{
 						"error": "Cannot find the specified disease.",
 					})
 				}
@@ -86,5 +86,31 @@ func (s *Server) PostPrediction(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid Name Input.",
 		})
+	}
+}
+
+func (s *Server) PostLogs(c *gin.Context) {
+	var logs transaction.LogsRequest
+	err := c.ShouldBindJSON(&logs)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Error while trying to read input, please make sure your input is valid",
+		})
+	} else {
+		date, name := algorithm.ParseQuery(logs.Query)
+		if date == "" && name == "" {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "Invalid date or name format.",
+			})
+		} else {
+			temp, err := s.PredictionService.FindLogs(name, date)
+			if err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{
+					"error": "Error while trying to insert, please try again",
+				})
+			} else {
+				c.JSON(http.StatusOK, temp)
+			}
+		}
 	}
 }
