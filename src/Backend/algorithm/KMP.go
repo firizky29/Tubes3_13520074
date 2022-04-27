@@ -1,4 +1,4 @@
-package main
+package algorithm
 
 func findLPS(virus *string, m int, lps []int) {
 	var len = 0

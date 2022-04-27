@@ -1,4 +1,4 @@
-package main
+package algorithm
 
 func badCharHeuristic(str string, size int, badchar []int) {
 	var i int

@@ -9,7 +9,7 @@ import (
 type Disease struct {
 	ID        int    `gorm:"primaryKey"`
 	Name      string `gorm:"type:varchar(100);unique;NOT NULL"`
-	DNA       string `gorm:"type:text;unique;NOT NULL"`
+	DNA       string `gorm:"type:TEXT;NOT NULL"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`

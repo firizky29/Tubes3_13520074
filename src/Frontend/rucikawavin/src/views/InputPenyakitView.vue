@@ -12,11 +12,11 @@
                             <h1 class="white--text">Tambah Penyakit</h1>
                             <div class="col-12 form-group">
                                 <label class="col-form-label col-form-label-lg white--text">Nama Penyakit <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control form-control-lg white--text" placeholder="Nama Penyakit" v-model="namapenyakit" />
+                                <input @focus="errorName = false" type="text" class="form-control form-control-lg white--text" :class="{'error-border': errorName}" placeholder="Nama Penyakit" v-model="namapenyakit" />
                             </div>
                             <div class="col-12 form-group">
                                 <label class="col-form-label col-form-label-lg white--text">Sequence DNA <span class="text-danger">*</span></label>
-                                <input accept=".txt" type="file" class="form-control form-control-lg white--text" color="#A7121D" placeholder="Sequence DNA" name="sequencedna" @change="onFilePicked">
+                                <input @focus="errorContent = false" accept=".txt" type="file" class="form-control form-control-lg white--text" color="#A7121D" :class="{'error-border': errorContent}" placeholder="Sequence DNA" name="sequencedna" @change="onFilePicked">
                             </div>
                             <div class="col-12 form-group text-center">
                                 <v-btn tile color="#A7121D" type="submit" dark>Submit<v-icon right>upload</v-icon></v-btn>
@@ -44,6 +44,8 @@
                 namapenyakit:"",
                 file: null,
                 content:"",
+                errorName:false,
+                errorContent:false,
             }
         },
 
@@ -53,23 +55,31 @@
         },
 
         methods: {
-            onSubmit(event) {
+            async onSubmit(event) {
                 event.preventDefault();
-                if (!this.namapenyakit || !this.file) {
-                    this.$alert('Please fill all fields!')
-                    return
+                this.errorName = false
+                this.errorContent = false
+                if (!this.namapenyakit || !this.content || !this.file) {
+                    if(!this.namapenyakit){
+                        this.errorName = true
+                    } else{
+                        this.errorContent = true
+                    }
+                    await this.$alert("All fields must not empty.", "Error", "error");
                 } else {
-                  axios.post('/inputpenyakit', {
-                    DiseaseName: this.namapenyakit,
-                    DNA: this.content
-                  }).then(function (response) {
-                    console.log(response);
-                  }).catch(function (error) {
-                    console.log(error);
-                  });
+                  try{
+                    await axios.post('/inputpenyakit', {
+                      DiseaseName: this.namapenyakit,
+                      DNA: this.content
+                    })
+                    await this.$alert("Disease data has been added successfully", "Success", "success");
+                  }catch (e) {
+                      console.log(e.response.data)
+                  }
                 }
             },
             onFilePicked(event) {
+                this.errorContent = false
                 const files = event.target.files
                 this.file = files[0]
                 const reader = new FileReader();
@@ -80,12 +90,7 @@
                   reader.onerror = (err) => console.log(err);
                   reader.readAsText(this.file);
                 } else {
-                  this.content = "check the console for file output";
-                  reader.onload = (res) => {
-                    console.log(res.target.result);
-                  };
-                  reader.onerror = (err) => console.log(err);
-                  reader.readAsText(this.file);
+                   this.errorContent = true
                 }
             }
         }
@@ -120,7 +125,7 @@
         padding: 12px 0 !important;
     }
 
-    input[type="text"], input[type="file"],  {
+    input[type="text"], input[type="file"]  {
         all: unset;
         width: 95%;
         height: 100%;
@@ -130,10 +135,15 @@
         padding: 1rem;
     }
 
+    input.error-border{
+      border: 1px solid red;
+    }
+
     input[type="file"]::file-selector-button {
         border: 2px solid #A7121D;
         background-color: #A7121D;
         transition: 1s;
         margin-right: 1rem;
     }
+
 </style>

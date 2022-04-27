@@ -1,4 +1,4 @@
-package main
+package algorithm
 
 func lcs(virus, human string, virLen, humLen int) int {
 	var T = make([][]int, virLen+1)

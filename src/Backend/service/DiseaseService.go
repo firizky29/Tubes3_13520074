@@ -7,6 +7,7 @@ import (
 
 type DiseaseService interface {
 	FindAll() ([]disease.Disease, error)
+	FindByName(name string) (disease.Disease, error)
 	Create(diseaseRequest transaction.DiseaseRequest) (disease.Disease, error)
 }
 
@@ -20,6 +21,9 @@ func NewDiseaseService(diseaseList disease.DiseaseList) *diseaseService {
 
 func (d *diseaseService) FindAll() ([]disease.Disease, error) {
 	return d.diseaseList.FindAll()
+}
+func (d *diseaseService) FindByName(name string) (disease.Disease, error) {
+	return d.diseaseList.FindByName(name)
 }
 
 func (d *diseaseService) Create(diseaseRequest transaction.DiseaseRequest) (disease.Disease, error) {

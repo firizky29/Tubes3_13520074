@@ -1,12 +1,12 @@
 package main
 
 import (
+	"backend/server"
 	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
-	"time"
 
 	"gorm.io/driver/mysql"
 
@@ -100,7 +100,7 @@ func main() {
 	/* COBA-COBA */
 	//var err error
 	//var db *gorm.DB
-	//db, err = initDB()
+	//db, _ = initDB()
 	//if err != nil {
 	//	panic(err)
 	//}
@@ -114,7 +114,7 @@ func main() {
 	//	return
 	//}
 	//
-	//var repo = disease.NewPredictionLogs(db)
+	//var repo = disease.NewDisease(db)
 	//var prediction = disease.DiseasePrediction{
 	//	UserName:          "Firizky Ardiansyah",
 	//	DNA:               "ATCGCGCATGAATATCGATCGATGCATCGCGGCGCGCTAGTACGATCGATGCATGTACATGCATCGTAGCATCGATCGATCGATCGCATCG",
@@ -124,21 +124,38 @@ func main() {
 	//}
 	//repo.Create(prediction)
 
-	/*
-		TODO: yang ini masih bingung, pengennya bisa parse generic date tp gagal wae
-	*/
-	var input = "02-02-2002 00:00:00 WIB"
-	var inputToTime, err2 = time.Parse("2006-01-02 15:02:01 WIB", input)
-	if err2 != nil {
-		fmt.Printf("Input salah format")
-		panic(err2)
-	}
-	fmt.Printf(inputToTime.String())
+	//var input = "02-02-2002 00:00:00 WIB"
+	//var inputToTime, err2 = time.Parse("2006-01-02 15:02:01 WIB", input)
+	//if err2 != nil {
+	//	fmt.Printf("Input salah format")
+	//	panic(err2)
+	//}
+	//tes, err := repo.FindByName("AKU")
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
+	//if tes.Name == "" {
+	//	fmt.Println("KOSONG")
+	//}
+	//fmt.Printf(inputToTime.String())
 	//var logs []disease.DiseasePrediction
 	//logs, _ = repo.FindByDateAndDiseaseName("virus", time.Now())
 	//
 	//for _, log := range logs {
 	//	fmt.Printf(log.UserName)
 	//}
+	config := server.DatabaseConfig{
+		"rucikawavin@rucikawavin",
+		"rucika.wavin123",
+		"rucikawavin.mysql.database.azure.com",
+		"3306",
+		"rucikawavin",
+	}
+	//
+	myServer := server.NewServer(config)
+	myServer.Run(": 8080")
 
+	//algorithm.ParseQuery("02 A B")
+	//A := "BCDE"
+	//fmt.Println(A[:2])
 }

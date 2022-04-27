@@ -8,6 +8,7 @@ import "gorm.io/gorm"
 
 type DiseaseList interface {
 	FindAll() ([]Disease, error)
+	FindByName(name string) (Disease, error)
 	Create(disease Disease) (Disease, error)
 }
 
@@ -25,6 +26,14 @@ func (d *diseaseList) FindAll() ([]Disease, error) {
 	err := d.db.Find(&diseases).Error
 
 	return diseases, err
+}
+
+func (d *diseaseList) FindByName(name string) (Disease, error) {
+	var disease Disease
+
+	err := d.db.Where("name = ?", name).Find(&disease).Error
+
+	return disease, err
 }
 
 func (d *diseaseList) Create(disease Disease) (Disease, error) {
