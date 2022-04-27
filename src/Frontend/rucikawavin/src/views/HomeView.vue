@@ -18,7 +18,7 @@
           <h5 class="red--text text-darken-4 top">Selamat Datang Di</h5>
           <h1 class="white--text">DNA Pattern Matching</h1>
           <p class="grey--text">
-            Program ini dibuat oleh Kelompok RucikaWavin
+            Program ini dibuat oleh Kelompok Rucika Wavin
           </p>
           <v-btn tile color="#A7121D" @click="scroll('service')" dark>Get Started<v-icon bottom>mdi-arrow-down</v-icon></v-btn>
         </v-col>
