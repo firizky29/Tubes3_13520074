@@ -15,7 +15,7 @@ func (s *Server) PostDisease(c *gin.Context) {
 	err := c.ShouldBindJSON(&disease)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "TypeError",
+			"error": "Error while trying to read input, please make sure your input is valid",
 		})
 	} else if algorithm.ValidateName(disease.DiseaseName) {
 		if algorithm.ValidateDNA(disease.DNA) {
@@ -34,13 +34,57 @@ func (s *Server) PostDisease(c *gin.Context) {
 			}
 		} else {
 			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "InvalidDNA",
+				"error": "Invalid DNA input, it should only contains A, T, C, or G character.",
 			})
 		}
 	} else {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "InvalidDiseaseName",
+			"error": "Invalid Name Input.",
 		})
 	}
+}
 
+func (s *Server) PostPrediction(c *gin.Context) {
+	var prediction transaction.PredictionRequest
+
+	err := c.ShouldBindJSON(&prediction)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Error while trying to read input, please make sure your input is valid.",
+		})
+	} else if algorithm.ValidateName(prediction.UserName) {
+		if algorithm.ValidateDNA(prediction.DNA) {
+			if algorithm.ValidateAlgorithm(prediction.Algorithm) {
+				temp, _ := s.DiseaseService.FindByName(prediction.DiseasePrediction)
+				if temp.Name != "" {
+					PredictionResult, err := s.PredictionService.Create(prediction, temp.DNA)
+					if err != nil {
+						c.JSON(http.StatusBadRequest, gin.H{
+							"error": "Error while trying to retrieve data, please try again.",
+						})
+					} else {
+						c.JSON(http.StatusOK, gin.H{
+							"Result": PredictionResult.Result,
+						})
+					}
+				} else {
+					c.JSON(http.StatusOK, gin.H{
+						"error": "Cannot find the specified disease.",
+					})
+				}
+			} else {
+				c.JSON(http.StatusBadRequest, gin.H{
+					"error": "Invalid Algorithm.",
+				})
+			}
+		} else {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "Invalid DNA input, it should only contains A, T, C, or G character.",
+			})
+		}
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Invalid Name Input.",
+		})
+	}
 }

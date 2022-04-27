@@ -68,6 +68,7 @@ func (s *Server) initService(config DatabaseConfig) {
 func (s *Server) initRouter() {
 	s.Router = gin.Default()
 	s.Router.POST("/inputpenyakit", s.PostDisease)
+	s.Router.POST("/tesdna", s.PostPrediction)
 	s.Router.Use(static.Serve("/", static.LocalFile("../Frontend/rucikawavin/dist", true)))
 	s.Router.Use(static.Serve("/inputpenyakit", static.LocalFile("../Frontend/rucikawavin/dist", true)))
 	s.Router.Use(static.Serve("/tesdna", static.LocalFile("../Frontend/rucikawavin/dist", true)))

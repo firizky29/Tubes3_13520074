@@ -34,12 +34,12 @@
                                 <label class="col-form-label col-form-label-lg white--text">Algoritma <span class="text-danger">*</span></label> <br />
                                 
                                 <div class="radioContainer">
-                                    <input type="radio" name="algoritma" v-model="algoritma" value="kmp">
+                                    <input type="radio" name="algoritma" v-model="algoritma" value="KMP">
                                     <label class="white--text">KMP</label>
                                 </div>
                                 <div class="radioContainer">
-                                    <input type="radio" name="algoritma" v-model="algoritma" value="boyermoore">
-                                    <label class="white--text">BoyerMoore</label>
+                                    <input type="radio" name="algoritma" v-model="algoritma" value="Boyer Moore">
+                                    <label class="white--text">Boyer Moore</label>
                                 </div>
                             </div>
                             <div class="col-12 form-group text-center">
@@ -63,12 +63,14 @@
 <script>
     import TheNavbar from '../components/TheNavbar'
     import TheFooter from '../components/TheFooter'
+    import axios from "axios";
 
     export default {
         name: 'TesDNAView',
         data() {
             return {
                 namapengguna:"",
+                dnapengguna:"",
                 penyakit: "",
                 hasiltes: "",
                 file: null,
@@ -83,26 +85,37 @@
         },
 
         methods: {
-            onSubmit(e) {
+            async onSubmit(e) {
                 e.preventDefault();
-                if (!this.namapengguna || !this.file || !this.penyakit || !this.algoritma) {
-                    alert('Please fill all fields!')
-                    return
+                if (!this.namapengguna || !this.dnapengguna || !this.penyakit || !this.algoritma) {
+                    await this.$alert("Please make sure your input is not empty.", "Error", "error");
                 } else {
-                    // Menunjukkan hasil
-                    this.resultHidden = false;
-                    
-                    // Masukkan proses
-                    // ...
-                    
-                    // Kemduian ubah nilai dari this.hasiltes
-                    // Misal:
-                    this.hasiltes = "Sedang diproses"
+                  this.resultHidden = false;
+                  try{
+                      const data = await axios.post('/tesdna', {
+                          UserName: this.namapengguna,
+                          DNA: this.dnapengguna,
+                          DiseasePrediction: this.penyakit,
+                          Algorithm: this.algoritma
+                      })
+                      this.hasiltes = data.data.result
+                  }catch (e) {
+                      await this.$alert(e.response.data.error, "Error", "error")
+                      this.resultHidden = true;
+                  }
                 }
             },
             onFilePicked(event) {
                 const files = event.target.files
                 this.file = files[0]
+                const reader = new FileReader();
+                if (this.file.name.includes(".txt")) {
+                  reader.onload = (res) => {
+                    this.dnapengguna = res.target.result;
+                  };
+                  reader.onerror = (err) => console.log(err);
+                  reader.readAsText(this.file);
+                }
             }
         }
     }

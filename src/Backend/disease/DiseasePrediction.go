@@ -15,7 +15,7 @@ type DiseasePrediction struct {
 	DNA               string          `gorm:"type:text;NOT NULL"`
 	DiseasePrediction string          `gorm:"type:varchar(255);NOT NULL"`
 	SimilarityLevel   decimal.Decimal `gorm:"type:decimal(3, 2); NOT NULL"`
-	Status            bool            `gorm:"type:tinyint(1);NOT NULL"`
+	Status            string          `gorm:"type:varchar(10);NOT NULL"`
 	UpdatedAt         time.Time
 	DeletedAt         gorm.DeletedAt `gorm:"index"`
 }

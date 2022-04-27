@@ -22,7 +22,7 @@ func findLPS(virus *string, m int, lps []int) {
 }
 
 func KMPSearch(virus string, human string, flag *string) {
-	*flag = "not found"
+	*flag = "false"
 	var m = len(virus)
 	var n = len(human)
 	var lps = make([]int, m)
@@ -37,7 +37,7 @@ func KMPSearch(virus string, human string, flag *string) {
 			i++
 		}
 		if j == m {
-			*flag = "found"
+			*flag = "true"
 			j = lps[j-1]
 		} else if i < n && virus[j] != human[i] {
 			if j != 0 {

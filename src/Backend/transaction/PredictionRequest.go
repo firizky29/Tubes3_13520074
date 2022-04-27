@@ -4,4 +4,5 @@ type PredictionRequest struct {
 	UserName          string `json:"UserName"`
 	DNA               string `json:"DNA"`
 	DiseasePrediction string `json:"DiseasePrediction"`
+	Algorithm         string `json:"Algorithm"`
 }

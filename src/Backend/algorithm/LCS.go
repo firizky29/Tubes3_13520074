@@ -1,6 +1,10 @@
 package algorithm
 
-func lcs(virus, human string, virLen, humLen int) int {
+import "github.com/shopspring/decimal"
+
+func lcs(virus, human string) int {
+	virLen := len(virus)
+	humLen := len(human)
 	var T = make([][]int, virLen+1)
 	for i := range T {
 		T[i] = make([]int, humLen+1)
@@ -18,4 +22,8 @@ func lcs(virus, human string, virLen, humLen int) int {
 		}
 	}
 	return T[virLen][humLen]
+}
+
+func SimilarityLevel(virus, human string) decimal.Decimal {
+	return decimal.NewFromFloat(float64((lcs(virus, human) * 100.0) / len(human)))
 }

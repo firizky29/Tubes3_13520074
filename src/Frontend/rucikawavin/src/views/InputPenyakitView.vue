@@ -12,11 +12,11 @@
                             <h1 class="white--text">Tambah Penyakit</h1>
                             <div class="col-12 form-group">
                                 <label class="col-form-label col-form-label-lg white--text">Nama Penyakit <span class="text-danger">*</span></label>
-                                <input @focus="errorName = false" type="text" class="form-control form-control-lg white--text" :class="{'error-border': errorName}" placeholder="Nama Penyakit" v-model="namapenyakit" />
+                                <input type="text" class="form-control form-control-lg white--text" :class="{'error-border': errorName}" placeholder="Nama Penyakit" v-model="namapenyakit" />
                             </div>
                             <div class="col-12 form-group">
                                 <label class="col-form-label col-form-label-lg white--text">Sequence DNA <span class="text-danger">*</span></label>
-                                <input @focus="errorContent = false" accept=".txt" type="file" class="form-control form-control-lg white--text" color="#A7121D" :class="{'error-border': errorContent}" placeholder="Sequence DNA" name="sequencedna" @change="onFilePicked">
+                                <input accept=".txt" type="file" class="form-control form-control-lg white--text" color="#A7121D" :class="{'error-border': errorContent}" placeholder="Sequence DNA" name="sequencedna" @change="onFilePicked">
                             </div>
                             <div class="col-12 form-group text-center">
                                 <v-btn tile color="#A7121D" type="submit" dark>Submit<v-icon right>upload</v-icon></v-btn>
@@ -65,7 +65,7 @@
                     } else{
                         this.errorContent = true
                     }
-                    await this.$alert("All fields must not empty.", "Error", "error");
+                    await this.$alert("Please make sure your input is not empty.", "Error", "error");
                 } else {
                   try{
                     await axios.post('/inputpenyakit', {
@@ -74,7 +74,7 @@
                     })
                     await this.$alert("Disease data has been added successfully", "Success", "success");
                   }catch (e) {
-                      console.log(e.response.data)
+                      await this.$alert(e.response.data.error, "Error", "error")
                   }
                 }
             },

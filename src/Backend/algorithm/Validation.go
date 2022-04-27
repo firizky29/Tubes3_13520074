@@ -40,3 +40,7 @@ func ParseQuery(query string) (date string, name string) {
 		}
 	}
 }
+
+func ValidateAlgorithm(src string) bool {
+	return src == "Boyer Moore" || src == "KMP"
+}

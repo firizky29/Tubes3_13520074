@@ -17,8 +17,8 @@ func max(a, b int) int {
 	return b
 }
 
-func search(human string, virus string, flag *string) {
-	*flag = "not found"
+func BoyerMooreSearch(human string, virus string, flag *string) {
+	*flag = "false"
 	var m = len(virus)
 	var n = len(human)
 	var s = 0
@@ -33,7 +33,7 @@ func search(human string, virus string, flag *string) {
 			j--
 		}
 		if j < 0 {
-			*flag = "found"
+			*flag = "true"
 			if s+m < n {
 				s += m - badchar[human[s+m]]
 			} else {
