@@ -120,7 +120,7 @@
         padding: 12px 0 !important;
     }
 
-    input {
+    input[type="text"], input[type="file"],  {
         all: unset;
         width: 95%;
         height: 100%;

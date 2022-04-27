@@ -10,17 +10,37 @@
                     <div class="formContainer" id="formContainer">
                         <form class="col-md-8 rounded px-5 py-4 shadow bg-white form" @submit="onSubmit">
                             <h1 class="white--text">Tes DNA</h1>
+
+                            <!-- Nama Pengguna -->
                             <div class="col-12 form-group">
                                 <label class="col-form-label col-form-label-lg white--text">Nama Pengguna <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control form-control-lg white--text" placeholder="Nama Pengguna" v-model="namapengguna" />
                             </div>
+
+                            <!-- FIle -->
                             <div class="col-12 form-group">
                                 <label class="col-form-label col-form-label-lg white--text">Sequence DNA <span class="text-danger">*</span></label>
                                 <input accept=".txt" type="file" class="form-control form-control-lg white--text" color="#A7121D" placeholder="Sequence DNA" name="sequencedna" @change="onFilePicked">
                             </div>
+
+                            <!-- Penyakit -->
                             <div class="col-12 form-group">
                                 <label class="col-form-label col-form-label-lg white--text">Penyakit <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control form-control-lg white--text" color="#A7121D" placeholder="Penyakit" name="penyakit" v-model="penyakit">
+                            </div>
+
+                            <!-- Algoritma -->
+                            <div class="col-12">
+                                <label class="col-form-label col-form-label-lg white--text">Algoritma <span class="text-danger">*</span></label> <br />
+                                
+                                <div class="radioContainer">
+                                    <input type="radio" name="algoritma" v-model="algoritma" value="kmp">
+                                    <label class="white--text">KMP</label>
+                                </div>
+                                <div class="radioContainer">
+                                    <input type="radio" name="algoritma" v-model="algoritma" value="boyermoore">
+                                    <label class="white--text">BoyerMoore</label>
+                                </div>
                             </div>
                             <div class="col-12 form-group text-center">
                                 <v-btn tile color="#A7121D" type="submit" dark>Submit<v-icon right>upload</v-icon></v-btn>
@@ -52,7 +72,8 @@
                 penyakit: "",
                 hasiltes: "",
                 file: null,
-                resultHidden: true
+                resultHidden: true,
+                algoritma: ""
             }
         },
 
@@ -64,7 +85,7 @@
         methods: {
             onSubmit(e) {
                 e.preventDefault();
-                if (!this.namapengguna || !this.file || !this.penyakit) {
+                if (!this.namapengguna || !this.file || !this.penyakit || !this.algoritma) {
                     alert('Please fill all fields!')
                     return
                 } else {
@@ -115,7 +136,7 @@
         padding: 12px 0 !important;
     }
 
-    input {
+    input[type="text"], input[type="file"] {
         all: unset;
         width: 95%;
         height: 100%;
@@ -129,6 +150,14 @@
         border: 2px solid #A7121D;
         background-color: #A7121D;
         transition: 1s;
+        margin-right: 1rem;
+    }
+
+    .radioContainer {
+        margin: 1rem 1rem 1rem 0rem;
+    }
+
+    .radioContainer input {
         margin-right: 1rem;
     }
 </style>

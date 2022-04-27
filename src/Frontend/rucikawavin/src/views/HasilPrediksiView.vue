@@ -11,6 +11,7 @@
                 <!-- SEARCHBAR -->
                 <v-col cols="12">
                     <div class="searchbar" id="searchbar">
+                        <h1 class="mb-10 white--text">Pencarian Hasil Prediksi</h1>
                         <div class="col-md-8 rounded px-5 py-4 shadow bg-white form">
                             <div class="col-12 form-group">
                                 <input type="text" class="form-control form-control-lg white--text" placeholder="&quot;dd-mm-yyyy nama_penyakit&quot;, &quot;nama_penyakit&quot;, &quot;dd-mm-yyyy&quot;" v-model="search" />
@@ -20,12 +21,10 @@
                 </v-col>
 
                 <!-- SEARCH RESULT -->
-                <v-col cols="12" class="searchresults">
+                <v-col cols="12" class="resultcontainer">
                     <div class="searchresult" v-for="result of searchResults" :key="result.hasil">
-                        <div class="col-md-8 rounded px-5 py-4 shadow bg-white result">
-                            <div class="col-12 form-group">
-                                <p class="white--text">{{result.hasil}}</p>
-                            </div>
+                        <div class="col-md-8 rounded px-5 py-4 shadow bg-white result white--text">
+                            {{result.hasil}}
                         </div>
                     </div>
                 </v-col>
@@ -51,6 +50,8 @@
                     {hasil: 'ayam'},
                     {hasil: 'babi'},
                     {hasil: 'anjing'},
+                    {hasil: 'sapi'},
+                    {hasil: 'bola'},
 
                     // {id: 1, tanggal: '10 April 2022', pasien: 'Fulan', penyakit: 'HIV', hasil: 'True'},
                     // {id: 2, tanggal: '11 April 2022', pasien: 'Kamal', penyakit: 'Kanker', hasil: 'False'},
@@ -117,6 +118,12 @@
         text-align: left;
     }
 
+    .resultcontainer {
+        height: 100%;
+        text-align: center;
+        padding: 2rem;
+    }
+
     .result {
         display: inline-block;
         background-color: #1e1e1e;
@@ -126,11 +133,7 @@
         text-align: left;
     }
 
-    .col-12.padd {
-        padding: 12px 0 !important;
-    }
-
-    input {
+    input[type="text"] {
         all: unset;
         width: 95%;
         height: 100%;
