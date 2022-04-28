@@ -8,7 +8,7 @@
             <v-row>
                 <v-col cols="12" class="padd">
                     <div class="formContainer" id="formContainer">
-                        <form class="col-md-8 rounded px-5 py-4 shadow bg-white form" @submit="onSubmit">
+                        <form class="col-md-8 rounded px-5 py-4 shadow bg-white form" @submit="onSubmit" ref="inputPenyakit">
                             <h1 class="white--text">Tambah Penyakit</h1>
                             <div class="col-12 form-group">
                                 <label class="col-form-label col-form-label-lg white--text">Nama Penyakit <span class="text-danger">*</span></label>
@@ -77,6 +77,7 @@
                       await this.$alert(e.response.data.error, "Error", "error")
                   }
                 }
+                this.$refs.inputPenyakit.reset()
             },
             async onFilePicked(event) {
                 this.errorContent = false

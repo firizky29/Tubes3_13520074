@@ -8,7 +8,7 @@
             <v-row>
                 <v-col cols="12" class="padd">
                     <div class="formContainer" id="formContainer">
-                        <form class="col-md-8 rounded px-5 py-4 shadow bg-white form" @submit="onSubmit">
+                        <form class="col-md-8 rounded px-5 py-4 shadow bg-white form" @submit="onSubmit" ref="testDNA">
                             <h1 class="white--text">Tes DNA</h1>
 
                             <!-- Nama Pengguna -->
@@ -104,6 +104,7 @@
                       this.resultHidden = true;
                   }
                 }
+                this.$refs.testDNA.reset();
             },
             async onFilePicked(event) {
                 const files = event.target.files
