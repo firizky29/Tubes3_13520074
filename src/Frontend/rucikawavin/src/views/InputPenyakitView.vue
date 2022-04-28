@@ -78,7 +78,7 @@
                   }
                 }
             },
-            onFilePicked(event) {
+            async onFilePicked(event) {
                 this.errorContent = false
                 const files = event.target.files
                 this.file = files[0]
@@ -88,7 +88,7 @@
                     this.content = res.target.result;
                   };
                   reader.onerror = (err) => console.log(err);
-                  reader.readAsText(this.file);
+                  await reader.readAsText(this.file);
                 } else {
                    this.errorContent = true
                 }

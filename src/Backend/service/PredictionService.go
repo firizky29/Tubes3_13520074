@@ -44,7 +44,7 @@ func (p *predictionService) FindLogs(name string, date string) ([]transaction.Pr
 	}
 	for _, prediction := range curPredictions {
 		y, m, d := prediction.CreatedAt.Date()
-		similarityResult := prediction.SimilarityLevel.String()
+		similarityResult := prediction.SimilarityLevel.String() + "%"
 		result := fmt.Sprintf("%d %s %d - %s - %s - %s - %s", d, m, y, prediction.UserName, prediction.DiseasePrediction, similarityResult, prediction.Status)
 		Log := transaction.PredictionResponse{Result: result}
 		Logs = append(Logs, Log)
@@ -77,7 +77,7 @@ func (p *predictionService) Create(prediction transaction.PredictionRequest, DNA
 	}
 
 	y, m, d := CreatedLogs.CreatedAt.Date()
-	similarityResult := CreatedLogs.SimilarityLevel.String()
+	similarityResult := CreatedLogs.SimilarityLevel.String() + "%"
 
 	PredictionResult := fmt.Sprintf("%d %s %d - %s - %s - %s - %s", d, m, y, CreatedLogs.UserName, CreatedLogs.DiseasePrediction, similarityResult, CreatedLogs.Status)
 

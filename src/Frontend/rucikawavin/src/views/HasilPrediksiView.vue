@@ -27,7 +27,7 @@
                 <v-col cols="12" class="resultcontainer">
                     <div class="searchresult" v-for="result of searchResults" :key="result.hasil">
                         <div class="col-md-8 rounded px-5 py-4 shadow bg-white result white--text">
-                            {{result.hasil}}
+                            {{result.Result}}
                         </div>
                     </div>
                 </v-col>
@@ -51,11 +51,11 @@
             return {
                 results: [
                     // // dummy
-                    {hasil: 'ayam'},
-                    {hasil: 'babi'},
-                    {hasil: 'anjing'},
-                    {hasil: 'sapi'},
-                    {hasil: 'bola'},
+                    // {hasil: 'ayam'},
+                    // {hasil: 'babi'},
+                    // {hasil: 'anjing'},
+                    // {hasil: 'sapi'},
+                    // {hasil: 'bola'},
                     //
                     // // {id: 1, tanggal: '10 April 2022', pasien: 'Fulan', penyakit: 'HIV', hasil: 'True'},
                     // // {id: 2, tanggal: '11 April 2022', pasien: 'Kamal', penyakit: 'Kanker', hasil: 'False'},
@@ -85,7 +85,7 @@
                         })
 
                         // Dimasukkan ke dalam array searchResults
-                        this.searchResults = data.data.Result
+                        this.searchResults = data.data
                     } else {
                         // Jika input kosong, masukan seluruh data ke dalam array searchResults
                         this.searchResults = this.results
