@@ -25,5 +25,5 @@ func lcs(virus, human string) int {
 }
 
 func SimilarityLevel(virus, human string) decimal.Decimal {
-	return decimal.NewFromFloat(float64((lcs(virus, human) * 100.0) / len(human)))
+	return decimal.NewFromFloat(float64((lcs(virus, human) * 100.0) / len(virus)))
 }
