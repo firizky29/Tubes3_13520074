@@ -59,7 +59,7 @@ func (p *predictionService) Create(prediction transaction.PredictionRequest, DNA
 	} else {
 		algorithm.KMPSearch(prediction.DNA, DNADisease, &status)
 	}
-	similarity := algorithm.SimilarityLevel(prediction.DNA, DNADisease)
+	similarity := algorithm.SimilarityLevel(DNADisease, prediction.DNA)
 	if status == "false" && similarity.Cmp(decimal.NewFromFloat(80.0)) == 1 {
 		status = "true"
 	}
