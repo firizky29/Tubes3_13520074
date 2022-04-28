@@ -1,27 +1,33 @@
 package algorithm
 
-import "github.com/shopspring/decimal"
+import (
+	"github.com/shopspring/decimal"
+)
 
 func lcs(virus, human string) int {
-	virLen := len(virus)
-	humLen := len(human)
-	var T = make([][]int, virLen+1)
-	for i := range T {
-		T[i] = make([]int, humLen+1)
+	virusLen := len(virus)
+	humanLen := len(human)
+	result := 0
+	var suffix = make([][]int, virusLen+1)
+	for i := range suffix {
+		suffix[i] = make([]int, humanLen+1)
 	}
 
-	for i := 0; i < virLen+1; i++ {
-		for j := 0; j < humLen+1; j++ {
+	for i := 0; i <= virusLen; i++ {
+		for j := 0; j <= humanLen; j++ {
 			if i == 0 || j == 0 {
-				T[i][j] = 0
+				suffix[i][j] = 0
 			} else if virus[i-1] == human[j-1] {
-				T[i][j] = 1 + T[i-1][j-1]
+				suffix[i][j] = 1 + suffix[i-1][j-1]
+				if suffix[i][j] > result {
+					result = suffix[i][j]
+				}
 			} else {
-				T[i][j] = max(T[i-1][j], T[i][j-1])
+				suffix[i][j] = max(suffix[i-1][j], suffix[i][j-1])
 			}
 		}
 	}
-	return T[virLen][humLen]
+	return result
 }
 
 func SimilarityLevel(virus, human string) decimal.Decimal {
