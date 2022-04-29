@@ -53,7 +53,7 @@ Implementasi program ditulis dalam bahasa HTML, CSS, JS, Go dengan framework Vue
 - Kemudian, jalankan perintah `npm install`
 - Setelah proses instalasi selesai, jalankan perintah `npm run build`
 - Kemudian, setelah proses build selesai, buka direktori dist hasil build pada langkah sebelumnya. Folder dist akan berisi `index.html` yang perlu di-_edit_ agar bisa di-_load_ oleh Backend.
-- Cari tag bernama `script` dengan parameter `type = "module"` dengan"`. Ubah module pada kedua sisi tag menjadi `type = "text/javascript"`. Simpan hasil perubahan.
+- Cari tag bernama `script` dengan parameter `type = "module"`. Ubah module pada kedua sisi tag menjadi `type = "text/javascript"`. Simpan hasil perubahan.
 - Buka direktori backend pada terminal dengan menggunakan perintah berikut `cd ..\..\Backend\`
 - Lakukan build pada backend menggunakan perintah `go build`
 - Setelah proses build selesai, jalankan `go run main.go`
